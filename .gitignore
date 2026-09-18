@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# PyInstaller build and distribution
+build/
+dist/
+*.manifest
+*.spec.bak
+
+# Installer / Packaging
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDE / Editor artifacts
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.gemini/
+
+# Operating System metadata
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Logs and runtime databases
+*.log
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+
+# Pre-packaged and generated theme suites (already built into Curated Presets)
+Themes/
+Themes/Moga-Purple-White/
+Exported Themes/
+

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursor Concept</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <div class="logo-mark">
+          <img src="logo.png" alt="Cursor Concept Logo" style="width: 32px; height: 32px; border-radius: 8px; object-fit: cover;">
+        </div>
+        <div class="title-group">
+          <span class="app-title">CURSOR CONCEPT</span>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="sys-chip" id="sysChipContainer">
+          <span class="dot live-dot"></span>
+          <span id="sysDisplayMetrics">Detecting Display...</span>
+          <span class="sep" id="sysMetricsSep">•</span>
+          <span class="hz-tag" id="sysRefreshRate">--Hz</span>
+        </div>
+
+        <!-- 3-Way App Theme Switcher (System / Dark / Light) with clean geometric SVG icons -->
+        <div class="app-theme-switcher" id="appThemeSwitcher" title="Application Theme">
+          <button class="theme-toggle-btn active" data-theme="system" title="System Default (Follows Windows OS Theme)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>Auto</span>
+          </button>
+          <button class="theme-toggle-btn" data-theme="dark" title="Dark Theme (Obsidian Glass)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <span>Dark</span>
+          </button>
+          <button class="theme-toggle-btn" data-theme="light" title="Light Theme (Pure Slate Glass)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <span>Light</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="btnRevert" class="btn btn-secondary" title="Restore Windows Aero / Default Cursors">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Revert Default
+        </button>
+        <button id="btnExport" class="btn btn-secondary" title="Export Full Theme Pack with INF & 34 Cursors">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export Pack
+        </button>
+        <button id="btnApply" class="btn btn-primary" title="Instantly Activate Theme on Windows">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Apply to Windows
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-layout">
+      <!-- Left Panel: Customizer Studio -->
+      <aside class="sidebar-panel">
+        <input type="hidden" id="schemeNameInput" value="Cursor Concept">
+
+        <!-- Presets -->
+        <div class="panel-section">
+          <div class="section-header">
+            <span class="section-title">CURATED PRESETS</span>
+          </div>
+          <div class="presets-grid" id="presetsGrid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Mode Selector -->
+        <div class="panel-section">
+          <div class="section-header">
+            <span class="section-title">FILL MODE</span>
+          </div>
+          <div class="segmented-control" id="modeSelector">
+            <button class="seg-btn active" data-mode="solid">Solid</button>
+            <button class="seg-btn" data-mode="gradient">Gradient</button>
+            <button class="seg-btn" data-mode="rgb">RGB</button>
+          </div>
+        </div>
+
+        <!-- Color Controls Container -->
+        <div class="panel-section" id="colorControlsSection">
+          <div class="section-header">
+            <span class="section-title">SHADING & PALETTE</span>
+          </div>
+
+          <!-- Color A Swatch Trigger -->
+          <div class="color-swatch-row" id="rowColorA">
+            <div class="color-label-group">
+              <span class="field-label" id="labelColorA">Fill Color</span>
+              <span class="field-desc">Primary tint</span>
+            </div>
+            <button class="swatch-trigger-btn" id="btnOpenPickerA" title="Click to choose primary color">
+              <span class="swatch-bubble" id="swatchBubbleA" style="background-color: #a6a3ff;"></span>
+              <span class="swatch-hex" id="swatchHexA">#a6a3ff</span>
+            </button>
+          </div>
+
+          <!-- Color B Swatch Trigger (Gradient only) -->
+          <div class="color-swatch-row" id="rowColorB" style="display: none;">
+            <div class="color-label-group">
+              <span class="field-label">Secondary Stop</span>
+              <span class="field-desc">Gradient target</span>
+            </div>
+            <button class="swatch-trigger-btn" id="btnOpenPickerB" title="Click to choose secondary color">
+              <span class="swatch-bubble" id="swatchBubbleB" style="background-color: #00f0ff;"></span>
+              <span class="swatch-hex" id="swatchHexB">#00f0ff</span>
+            </button>
+          </div>
+
+          <!-- Gradient Angle Slider (Gradient only) -->
+          <div class="angle-control-group" id="gradientAngleGroup" style="display: none;">
+            <div class="angle-header">
+              <span class="field-label">Gradient Direction</span>
+              <span class="angle-val-badge" id="angleDisplay">45°</span>
+            </div>
+            <div class="angle-slider-wrap">
+              <input type="range" id="angleSlider" min="0" max="360" value="45">
+            </div>
+            <div class="gradient-preview-strip" id="gradientPreviewStrip"></div>
+          </div>
+
+          <!-- RGB Wave Dynamics Panel (RGB mode only, Evofox Style) -->
+          <div class="rgb-dynamics-panel" id="rgbDynamicsPanel" style="display: none;">
+            <div class="dynamics-row">
+              <div class="dynamics-label-group">
+                <span class="field-label">Wave Speed</span>
+                <span class="speed-badge" id="rgbSpeedBadge">2x Smooth (30 FPS)</span>
+              </div>
+              <input type="range" id="rgbSpeedSlider" min="1" max="4" value="2" step="1">
+              <div class="speed-ticks">
+                <span>1x Ambient</span>
+                <span>2x Smooth</span>
+                <span>3x Fast</span>
+                <span>4x Blaze</span>
+              </div>
+            </div>
+
+            <div class="dynamics-row" style="margin-top: 10px;">
+              <span class="field-label" style="margin-bottom: 6px; display: block;">Spectrum Direction</span>
+              <div class="segmented-control mini-seg" id="rgbDirectionSelector">
+                <button class="seg-btn active" data-dir="clockwise">Clockwise</button>
+                <button class="seg-btn" data-dir="counter_clockwise">Counter Clockwise</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outline Style -->
+        <div class="panel-section">
+          <div class="section-header">
+            <span class="section-title">OUTLINE BORDER</span>
+          </div>
+          <div class="outline-radios">
+            <label class="outline-opt active" data-outline="#ffffff">
+              <span class="opt-swatch outline-white"></span>
+              <span class="opt-label">White (Moga Dark)</span>
+            </label>
+            <label class="outline-opt" data-outline="#000000">
+              <span class="opt-swatch outline-black"></span>
+              <span class="opt-label">Black</span>
+            </label>
+            <label class="outline-opt" data-outline="custom">
+              <span class="opt-swatch outline-custom" id="customOutlineSwatch"></span>
+              <span class="opt-label">Custom Hex</span>
+            </label>
+          </div>
+          <div class="custom-outline-row" id="customOutlineRow" style="display: none;">
+            <input type="color" id="pickerOutline" value="#ffffff">
+            <input type="text" id="hexInputOutline" value="#ffffff" maxlength="7">
+          </div>
+        </div>
+
+        <!-- Base Template Model -->
+        <div class="panel-section">
+          <div class="section-header">
+            <span class="section-title">BASE GEOMETRY</span>
+          </div>
+          <select id="baseTypeSelect" class="styled-select">
+            <option value="dark" selected>High Contrast (White Outline)</option>
+            <option value="white">Inverted (Black Outline)</option>
+          </select>
+        </div>
+      </aside>
+
+
+      <!-- Right Content View -->
+      <section class="content-view">
+        <!-- Live Interactive Sandbox Pad -->
+        <div class="sandbox-container">
+          <div class="sandbox-header">
+            <div class="sandbox-title-wrap">
+              <span class="sandbox-tag">LIVE INTERACTIVE SANDBOX</span>
+              <span class="sandbox-hint">Hover controls to experience live custom transformations</span>
+            </div>
+            
+            <div class="sandbox-controls-group">
+              <!-- Contrast & Background Mode Switcher -->
+              <div class="bg-switch-group" id="sandboxBgSwitcher" title="Test cursor contrast against dark, light, and wallpaper backgrounds">
+                <button class="bg-switch-btn active" data-bg="dark">Dark Grid</button>
+                <button class="bg-switch-btn" data-bg="light">Light Mode</button>
+                <button class="bg-switch-btn" data-bg="wallpaper">Mesh Gradient</button>
+              </div>
+
+              <!-- DPI Scale Selector -->
+              <div class="dpi-scale-group" id="dpiScaleSwitcher" title="Simulate cursor scaling at high DPI">
+                <span class="dpi-label">Scale:</span>
+                <button class="dpi-btn active" data-scale="1">1x</button>
+                <button class="dpi-btn" data-scale="1.25">1.25x</button>
+                <button class="dpi-btn" data-scale="1.5">1.5x</button>
+                <button class="dpi-btn" data-scale="2">2x</button>
+              </div>
+
+              <div class="sandbox-active-chip">
+                <span>Active:</span>
+                <strong id="activeCursorSimName">Normal Select</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="sandbox-pad" id="sandboxPad">
+            <div class="sandbox-grid">
+              <div class="test-target target-normal active" data-cursor-id="normal" title="Normal Arrow">
+                <span class="target-icon">
+                  <svg class="target-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2l16 11-7.5 1.5 4.5 8-3 1.5-4.5-8L4 20V2z"/></svg>
+                </span>
+                <span class="target-text">Normal Pointer</span>
+              </div>
+              <div class="test-target target-link" data-cursor-id="link" title="Hand Link">
+                <span class="target-icon">
+                  <svg class="target-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 2a2 2 0 0 0-2 2v7.24a3 3 0 0 0-1.87 2.05L4.54 18.2a1.5 1.5 0 0 0 1.94 1.94l3.14-1.25V21a2 2 0 0 0 2 2h6a2 2 0 0 0 1.95-1.57l1.78-7.8A3 3 0 0 0 18.4 9.47L17 9.15V4a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v3.15L11 6.84V4a2 2 0 0 0-1-2z"/></svg>
+                </span>
+                <span class="target-text">Link Hover</span>
+              </div>
+              <div class="test-target target-text" data-cursor-id="text" title="IBeam Text">
+                <span class="target-icon">
+                  <svg class="target-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4V2h10v2h-4v16h4v2H7v-2h4V4H7z"/></svg>
+                </span>
+                <span class="target-text">Text Select</span>
+              </div>
+              <div class="test-target target-col" data-cursor-id="col_resize" title="Column Capacitor Splitter">
+                <span class="target-icon">
+                  <svg class="target-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 7l-5 5 5 5v-3h12v3l5-5-5-5v3H6V7z"/></svg>
+                </span>
+                <span class="target-text">Col Split (Capacitor)</span>
+              </div>
+              <div class="test-target target-row" data-cursor-id="row_resize" title="Row Capacitor Splitter">
+                <span class="target-icon">
+                  <svg class="target-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 6l5-5 5 5h-3v12h3l-5 5-5-5h3V6H7z"/></svg>
+                </span>
+                <span class="target-text">Row Split (Capacitor)</span>
+              </div>
+              <div class="test-target target-move" data-cursor-id="move_4way" title="4-Way Move">
+                <span class="target-icon">
+                  <svg class="target-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l4 4h-3v5h5V8l4 4-4 4v-3h-5v5h3l-4 4-4-4h3v-5H6v3l-4-4 4-4v3h5V6H8l4-4z"/></svg>
+                </span>
+                <span class="target-text">Move (4-Way)</span>
+              </div>
+              <div class="test-target target-grab" data-cursor-id="move_hand" title="Grab / Hand">
+                <span class="target-icon">
+                  <svg class="target-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 11V6a2 2 0 0 0-4 0v4h-1V4a2 2 0 0 0-4 0v7h-1V3a2 2 0 0 0-4 0v11.5c0 4.7 3.8 8.5 8.5 8.5s8.5-3.8 8.5-8.5V11a2 2 0 0 0-4 0z"/></svg>
+                </span>
+                <span class="target-text">Grab Hand</span>
+              </div>
+              <div class="test-target target-busy" data-cursor-id="busy" title="Busy Spinner">
+                <span class="target-icon">
+                  <svg class="target-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9" stroke-dasharray="40" stroke-dashoffset="15"/></svg>
+                </span>
+                <span class="target-text">Busy Feedback</span>
+              </div>
+            </div>
+
+            <div class="sandbox-watermark">
+              <span>CURSOR CONCEPT TESTBED</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full 34 Icon Shelf -->
+        <div class="shelf-container">
+          <div class="shelf-header">
+            <div class="shelf-header-top">
+              <div class="shelf-title-group">
+                <span class="shelf-title">TRANSFORMATION SUITE</span>
+                <span class="shelf-counter" id="shelfCount">34</span>
+              </div>
+              
+              <div class="shelf-search-wrap">
+                <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="cursorSearchInput" class="shelf-search-input" placeholder="Search transforms... (e.g. col-resize, split, grab)">
+              </div>
+            </div>
+            
+            <!-- Filters -->
+            <div class="shelf-filters" id="shelfFilters">
+              <button class="filter-chip active" data-cat="all">All (34)</button>
+              <button class="filter-chip" data-cat="Pointers">Pointers</button>
+              <button class="filter-chip" data-cat="Text">Text</button>
+              <button class="filter-chip" data-cat="Resizers">Resizers</button>
+              <button class="filter-chip" data-cat="Splitters">Splitters</button>
+              <button class="filter-chip" data-cat="Movement">Movement</button>
+              <button class="filter-chip" data-cat="Actions">Actions</button>
+              <button class="filter-chip" data-cat="Feedback">Feedback</button>
+            </div>
+          </div>
+
+          <!-- Cards Grid -->
+          <div class="cursor-cards-grid" id="cursorCardsGrid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Floating Color Picker Popover Overlay -->
+    <div class="popover-backdrop hidden" id="colorPickerBackdrop">
+      <div class="popover-card" id="colorPickerCard">
+        <div class="popover-header">
+          <span class="popover-title" id="popoverTitle">Select Color</span>
+          <button class="popover-close-btn" id="popoverCloseBtn" title="Close">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        
+        <!-- 2D Saturation / Value Canvas -->
+        <div class="popover-sv-container">
+          <canvas id="popoverSvCanvas" width="220" height="130"></canvas>
+          <div class="popover-puck" id="popoverPuck"></div>
+        </div>
+        
+        <!-- 360 Rainbow Hue Slider -->
+        <div class="popover-hue-container">
+          <input type="range" id="popoverHueSlider" min="0" max="360" value="240">
+        </div>
+
+        <div class="popover-swatches-title">QUICK PALETTE</div>
+        <div class="popover-swatches" id="popoverSwatches">
+          <!-- Swatches injected by JS -->
+        </div>
+
+        <div class="popover-bottom-bar">
+          <div class="popover-hex-box">
+            <span class="hex-hash">#</span>
+            <input type="text" id="popoverHexInput" value="a6a3ff" maxlength="6" spellcheck="false">
+          </div>
+          <button id="popoverEyedropperBtn" class="eyedropper-btn" title="Pick color from screen">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 22 1-1h3l9-9"/><path d="M14 6l4 4"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button id="popoverDoneBtn" class="btn btn-primary btn-sm">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Toast Notification -->
+    <div class="toast-container" id="toastContainer">
+      <div class="toast-pill" id="toastPill">
+        <span class="toast-icon" id="toastIcon">✓</span>
+        <span class="toast-message" id="toastMsg">Notification message</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
